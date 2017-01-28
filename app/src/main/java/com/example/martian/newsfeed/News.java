@@ -5,55 +5,24 @@ package com.example.martian.newsfeed;
  */
 
 public class News {
-    String title,author,url,date,section;
-    public News(String title,String author,String url,String date,String section){
-        this.title=title;
-        this.author=author;
-        this.date=date;
-        this.section=section;
+    private String title,date;
+    public News(String mtitle,String mdate){
+           title=mtitle;
+           date=mdate;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public String getAuthor() {
-        return author;
-    }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
-
-    @Override
+    /*@Override
     public String toString() {
         return "News{" +
                 "title='" + title + '\'' +
@@ -62,7 +31,7 @@ public class News {
                 ", date='" + date + '\'' +
                 ", section='" + section + '\'' +
                 '}';
-    }
+    }*/
 }
 
 
