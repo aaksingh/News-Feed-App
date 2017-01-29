@@ -31,18 +31,18 @@ public class News_FeedActivity extends AppCompatActivity {
     private static final String Rss_url="http://timesofindia.indiatimes.com/rssfeedstopstories.cms";
     private String title,date;
     private ArrayList<News> Rnews;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news__feed);
+        Rnews=new ArrayList<News>();
 
-        Rnews = new  ArrayList<News>();
-
-
-
+        Log.i("Message","newsAdapter");
         NewsAdapter adapter = new NewsAdapter(this, Rnews);
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(adapter);
+        Log.i("Message","newsAdapter1");
 
 
          Log.i("Message","Not able to call");
@@ -58,11 +58,13 @@ public class News_FeedActivity extends AppCompatActivity {
         protected List<News> doInBackground(URL... urls) {
             Log.i("MESSAGE","In do in background");
             URL url=createURL(Rss_url);
+            Log.i("MESSAGE",Rss_url);
             InputStream in=null;
             ArrayList<News> news=null;
 
 
             try {
+                Log.i("MESSAGE","In try block");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setReadTimeout(10 * 1000);
                 connection.setConnectTimeout(10 * 1000);
@@ -80,24 +82,42 @@ public class News_FeedActivity extends AppCompatActivity {
                  boolean insideItem=false;
                 int eventType=Xpp.getEventType();
                 //Start the while loop
-                while (eventType!=XmlPullParser.START_DOCUMENT){
-                    if(eventType==XmlPullParser.START_TAG){
-                        if(Xpp.getName().equalsIgnoreCase("item")){
-                            insideItem=true;
-                        }else if(Xpp.getName().equalsIgnoreCase("title")){
-                            if(insideItem) {
-                                Log.i("Title is ",Xpp.nextText());
-                            }
-                        }else if(Xpp.getName().equalsIgnoreCase("pubDate")){
-                            if (insideItem) {
-                                Log.i("Publish Date is.", Xpp.nextText());
-                            }
+                Log.i("MESSAGE","Before while loop");
+                while (eventType!=XmlPullParser.END_DOCUMENT) {   Log.i("MESSAGE", "In while loop");
+
+                    if (eventType == Xpp.START_TAG) {
+                       // Log.i("MESSAGE", "In START_TAG");
+                    }
+                    Log.i("MESSAGE","After START_TAG loop");
+                    if (Xpp.getName().equals("item")){
+                        insideItem = true;
+                        //Log.i("MESSAGE", "In Item Tag");
+                        //Log.i("MESSAGE", "Hello");
+                    }
+                    //Log.i("MESSAGE","After item");
+                    else if (Xpp.getName().equals("title")) {
+                       // Log.i("MESSAGE", "Almost In title tag");
+                        if (insideItem) {
+                          //  Log.i("MESSAGE", "In title tag");
+                                //Log.i("Title is ", Xpp.nextText());
+                                //title = Xpp.nextText();
                         }
                     }
+                   // Log.i("MESSAGE","After title");
+                    else if (Xpp.getName().equals("pubDate")) {
+                         //      Log.i("MESSAGE", "Almost In pubdate tag");
+                        if (insideItem) {
+                           // Log.i("MESSAGE", "In pubdate");
+                            //Log.i("Publish Date is.", Xpp.nextText());
+                            //date = Xpp.nextText();
+                        }
+                    }
+                    Log.i("MESSAGE","After pubDate");
+                    /*Rnews=new ArrayList<News>();
+                    Rnews.add(new News(title,date));*/
                     insideItem = false;
-
                     eventType=Xpp.next();
-                }
+                }Log.i("Message is ","After while loop");
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -112,6 +132,7 @@ public class News_FeedActivity extends AppCompatActivity {
         }
         private URL createURL(String rss_url) {
             URL url = null;
+            Log.i("MESSAGE","In createurl");
             try {
                 url = new URL(rss_url);
             } catch (MalformedURLException exception) {
