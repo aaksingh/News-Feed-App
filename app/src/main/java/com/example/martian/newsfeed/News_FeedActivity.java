@@ -72,28 +72,26 @@ public class News_FeedActivity extends AppCompatActivity {
                 int response = connection.getResponseCode();
                 Log.d("debug","The Response is " + response);
                 stream=connection.getInputStream();
-                //Log.i("Message",".1");
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                //Log.i("Message","1");
                 factory.setNamespaceAware(true);
-                //Log.i("Message","2");
                 XmlPullParser xpp = factory.newPullParser();
-                //Log.i("Message","3");
                 xpp.setInput(stream,null);
-                //Log.i("Message","4");
                 int eventType = xpp.getEventType();
-                //Log.i("Message","5");
                 News newData = null;
-                //Log.i("Message","6");
-
-                //Log.i("Message","Before while loop");
 
                 while (eventType!=XmlPullParser.END_DOCUMENT){
-                    Log.i("Message","Inside while loop");
+
                     if(eventType==XmlPullParser.START_TAG){
+
                         Log.i("Start Document is : ",""+xpp.getName());
                     }
+
+                    else if(eventType==XmlPullParser.TEXT){
+
+                        Log.i("The content of TEXT is ",""+itemcontent);
+                    }
+
                     else if(eventType==XmlPullParser.END_TAG){
                         Log.i("Message","End Tag");
                         if (xpp.getName().equals("item")){
@@ -102,7 +100,8 @@ public class News_FeedActivity extends AppCompatActivity {
                         }
                         else if (xpp.getName().equals("title")){
                             Log.i("Title ","is"+xpp.getName());
-                            itemcontent=xpp.getAttributeValue(null,"title");
+                            //itemcontent=xpp.getAttributeValue(null,"title");
+                            itemcontent=xpp.getText();
                             Log.i("The"," "+itemcontent);
                         }
                         else if (xpp.getName().equals("link")){
@@ -125,7 +124,5 @@ public class News_FeedActivity extends AppCompatActivity {
             return Newsdata;
         }
     }
-
-
 }
 
